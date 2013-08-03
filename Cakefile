@@ -135,7 +135,3 @@ task 'scaffold', 'scaffold model/controller/test', (options) ->
   log "Scaffolding `#{options.name}`", green
   scaffold = require './scaffold'
   scaffold options.name
-  
-
-
-  
