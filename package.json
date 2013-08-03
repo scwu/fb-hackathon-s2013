@@ -22,7 +22,7 @@
     "clientjade": "latest"
   },
   "devDependencies": {
-    "fs": "*",
+    "node-fs": "*",
     "wrench": "*",
     "which": "*",
     "supervisor": "*"
