@@ -1,0 +1,13 @@
+!!! 5
+html
+  head
+    title= title
+    != css('index')
+
+    script
+      window.App = {};
+  body
+    #header
+    #content
+    != js('main')
+    != js('vendor/bootstrap')

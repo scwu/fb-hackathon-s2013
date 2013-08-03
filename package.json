@@ -1,0 +1,30 @@
+{
+  "name": "application-name",
+  "version": "0.0.1",
+  "private": true,
+  "engines": {
+    "node": "0.8.x",
+    "npm":  "1.2.x"
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "3.x",
+    "jade": "latest",
+    "stylus": "latest",
+    "nib": "latest",
+    "coffee-script": "1.4.0",
+    "connect-assets": "2.3.3",
+    "join": "latest",
+    "wrench": "*",
+    "which": "*",
+    "clientjade": "latest"
+  },
+  "devDependencies": {
+    "fs": "*",
+    "wrench": "*",
+    "which": "*",
+    "supervisor": "*"
+  }
+}
