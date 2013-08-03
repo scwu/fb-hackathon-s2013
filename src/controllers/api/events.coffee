@@ -1,4 +1,4 @@
-Event = require '../models/event'
+Event = require '../../models/event'
 
 # Event model's CRUD controller.
 module.exports = 
