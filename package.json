@@ -20,7 +20,7 @@
     "wrench": "*",
     "which": "*",
     "clientjade": "latest",
-    "mongodb": "latest"
+    "mongoose": "latest"
   },
   "devDependencies": {
     "node-fs": "*",
