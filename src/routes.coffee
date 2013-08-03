@@ -6,6 +6,8 @@ module.exports = (app) ->
     controllers.example.index req, res, next
 
   restfulRoutes app, 'users'
+  restfulRoutes app, 'events'
+  restfulRoutes app, 'responses'
 
 restfulRoutes = (app, model) ->
   app.get "/api/#{model}", (req, res, next) ->
