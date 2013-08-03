@@ -1,4 +1,5 @@
 Response = require '../../models/response'
+dates = require '../../helpers/dates'
 
 # Response model's CRUD controller.
 module.exports = 
@@ -11,6 +12,11 @@ module.exports =
   # Creates new response with data from `req.body`
   create: (req, res) ->
     response = new Response req.body
+
+    # Normalize dates
+    response.dates = response.dates.map (date) ->
+      dates.normalize date
+
     response.save (err, response) ->
       if not err
         res.send response
@@ -21,7 +27,7 @@ module.exports =
         
   # Gets response by id
   get: (req, res) ->
-    Response.findById req.params.id, (err, response) ->
+    Response.findById(req.params.id).populate('user').exec (err, response) ->
       if not err
         res.send response
       else

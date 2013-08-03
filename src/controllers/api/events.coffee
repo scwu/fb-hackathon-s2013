@@ -1,4 +1,5 @@
 Event = require '../../models/event'
+dates = require '../../helpers/dates'
 
 # Event model's CRUD controller.
 module.exports = 
@@ -11,6 +12,10 @@ module.exports =
   # Creates new event with data from `req.body`
   create: (req, res) ->
     event = new Event req.body
+
+    event.dates = event.dates.map (date) ->
+      dates.normalize date
+
     event.save (err, event) ->
       if not err
         res.send event
@@ -21,7 +26,11 @@ module.exports =
         
   # Gets event by id
   get: (req, res) ->
-    Event.findById req.params.id, (err, event) ->
+    Event
+    .findById(req.params.id)
+    .populate('responses')
+    .populate('invited')
+    .exec (err, event) ->
       if not err
         res.send event
       else
