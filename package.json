@@ -19,7 +19,8 @@
     "join": "latest",
     "wrench": "*",
     "which": "*",
-    "clientjade": "latest"
+    "clientjade": "latest",
+    "mongodb": "latest"
   },
   "devDependencies": {
     "node-fs": "*",
