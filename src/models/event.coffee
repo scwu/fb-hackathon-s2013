@@ -1,4 +1,6 @@
 mongoose = require 'mongoose'
+User = require './user'
+Response = require './response'
 
 Event = new mongoose.Schema(
 	locations: [String]

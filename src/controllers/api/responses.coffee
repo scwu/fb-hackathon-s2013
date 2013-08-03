@@ -1,4 +1,4 @@
-Response = require '../models/response'
+Response = require '../../models/response'
 
 # Response model's CRUD controller.
 module.exports = 
