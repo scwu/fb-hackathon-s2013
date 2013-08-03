@@ -1,12 +1,13 @@
 mongoose = require 'mongoose'
+Schema = mongoose.Schema
 User = require './user'
 Response = require './response'
 
 Event = new mongoose.Schema(
 	locations: [String]
 	dates: [Date]
-	invited: [User]
-	responses: [Response]
+	invited: [{ type: Schema.Types.ObjectId, ref: 'User' }]
+	responses: [{ type: Schema.Types.ObjectId, ref: 'Response' }]
 	duration: Number
 )
 

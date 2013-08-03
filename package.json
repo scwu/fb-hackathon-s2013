@@ -20,7 +20,8 @@
     "wrench": "*",
     "which": "*",
     "clientjade": "latest",
-    "mongoose": "latest"
+    "mongoose": "latest",
+    "smart-ranking": "latest"
   },
   "devDependencies": {
     "node-fs": "*",
