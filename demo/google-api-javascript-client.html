@@ -77,14 +77,27 @@
             'calendarId': 'primary'
           });
           request.execute(function(resp) {
-            var heading = document.createElement('h4');
-            var image = document.createElement('img');
-            // image.src = resp.image.url;
-            // heading.appendChild(image);
-            // heading.appendChild(document.createTextNode(resp.displayName));
+            
             console.log(resp);
 
-            document.getElementById('content').appendChild(heading);
+            for (var i = 0; i < resp.items.length; i++) {
+              if (resp.items[i].summary) {
+
+                var evnt = document.createElement('div');
+
+                var summary = document.createElement('h2');
+                summary.appendChild(document.createTextNode(resp.items[i].summary));
+
+                var location = document.createElement('h3');
+                location.appendChild(document.createTextNode(resp.items[i].location));
+
+                evnt.appendChild(summary);
+                evnt.appendChild(location);
+
+                document.getElementById('content').appendChild(evnt);
+
+              }
+            }
           });
         });
       }
