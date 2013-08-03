@@ -74,7 +74,10 @@
       function makeApiCall() {
         gapi.client.load('calendar', 'v3', function() {
           var request = gapi.client.calendar.events.list({
-            'calendarId': 'primary'
+            'calendarId': 'primary',
+            'timeMin': (new Date()).toISOString(),
+            'singleEvents': true,
+            'timeZone': 'UTC'
           });
           request.execute(function(resp) {
             
@@ -95,7 +98,6 @@
                 evnt.appendChild(location);
 
                 document.getElementById('content').appendChild(evnt);
-
               }
             }
           });
