@@ -15,6 +15,9 @@ module.exports = (app) ->
   app.post '/api/events/:id/responses', (req, res, next) ->
     controllers.api.events.createResponse req, res, next
 
+  app.get '/api/events/:id/ranking', (req, res, next) ->
+    controllers.api.events.ranking req, res, next
+
   restfulRoutes app, 'responses'
 
 restfulRoutes = (app, model) ->

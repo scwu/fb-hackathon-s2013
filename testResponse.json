@@ -1,7 +1,7 @@
 {
-  "dates": ["2013-08-03T20:51:33.828Z"],
-  "attending": true,
-  "comment": "I'm difficult yo",
-  "locations": [],
-  "user": "51fd59f9a23afc6073000001"
+	"locations": ["Starbucks", "Chipotle", "Empire", "Bowling"],
+	"dates" : ["2013-08-03T21:00:00.000Z"],
+	"invited": ["51fda4f0a601fcd403000001", "51fda500a601fcd403000002", "51fda510a601fcd403000003"],
+	"responses": ["51fdae86fcff6d8c05000003", "51fdae94fcff6d8c05000004", "51fdaea0fcff6d8c05000005"],
+	"duration": 2
 }

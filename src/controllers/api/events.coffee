@@ -1,6 +1,7 @@
 Event = require '../../models/event'
 Response = require '../../models/response'
 dates = require '../../helpers/dates'
+Ranking = require 'smart-ranking'
 
 # Event model's CRUD controller.
 module.exports = 
@@ -79,16 +80,18 @@ module.exports =
     .populate('invited')
     .exec (err, event) ->
       locations = event.locations
+      ratings = []
       for loc in locations
-        ratings = []
         ranking_data = {votes: [], id: loc}
         for response in event.responses
           res_locs = response.locations
           index = res_locs.indexOf loc
           index = res_locs.length - index
-          ranking_data.votes.append index
+          ranking_data.votes.push index
         ratings.push ranking_data
-
-      locs_score = Ranking.imdb ratings, true
+      locs_score = Ranking.amazon ratings
+      delete locs_score["_avgRatings"]
+      delete locs_score["_avgVotes"]
+      locs_score = (v for k, v of locs_score)
       locs_score.sort (a,b) -> b.score - a.score
-      res.send x.id for x in locs_score
+      res.send (x._id for x in locs_score)
