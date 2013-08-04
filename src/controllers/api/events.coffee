@@ -54,5 +54,24 @@ module.exports =
       else
         res.send err
         res.statusCode = 500
-      
-  
+
+  ranking: (req, res) ->
+    Event
+    .findById(req.params.id)
+    .populate('responses')
+    .populate('invited')
+    .exec (err, event) ->
+      locations = event.locations
+      for loc in locations
+        ratings = []
+        ranking_data = {votes: [], id: loc}
+        for response in event.responses
+          res_locs = response.locations
+          index = res_locs.indexOf loc
+          index = res_locs.length - index
+          ranking_data.votes.append index
+        ratings.push ranking_data
+
+      locs_score = Ranking.imdb ratings, true
+      locs_score.sort (a,b) -> b.score - a.score
+      res.send x.id for x in locs_score
