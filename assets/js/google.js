@@ -50,9 +50,11 @@ function makeApiCall(cb) {
     });
     request.execute(function(resp) {
 
-      getName(function(name)) {
-        cb({name: name, resp: resp});
-      }
+      getName(function(name) {
+        if (cb) {
+          cb({name: name, resp: resp});
+        }
+      });
 
       // for (var i = 0; i < resp.items.length; i++) {
       //   if (resp.items[i].summary) {
@@ -93,6 +95,15 @@ function getName(cb) {
       cb(resp.displayName);
     });
   });
+}
+
+function getContacts(cb) {
+  gapi.client.load('oauth2', 'v2', function() {
+    var request = gapi.client.oauth2.userinfo.get();
+    request.execute(function(resp) {
+      console.log(resp);
+    })
+  })
 }
 
 function googleToEvent(gevent) {
