@@ -1,7 +1,7 @@
 {
-  "locations": [],
+  "locations": ["Eiffel Tower", "Five Guys", "Some other place", "Spain"],
   "dates": [],
-  "invited": [],
+  "invited": ["51fe30f079e347cdb6000003", "51fe30fe79e347cdb6000004"],
   "responses": [],
   "duration": 2
 }

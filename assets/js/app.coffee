@@ -21,7 +21,7 @@ autoresponseModule.config [
       templateUrl: "partials/info"
       controller: InfoController
 
-    $routeProvider.when "/contribute",
+    $routeProvider.when "/:id",
       templateUrl: "partials/contribute"
       controller: ContributeController
 
@@ -115,45 +115,41 @@ IndexController.$inject = ['$scope', '$http', '$location']
 
 InfoController.$inject = ['$scope', '$http', '$location']
 
-@ContributeController = ($scope, $http, $location) ->
-
-  $scope.mapConfig =
-    zoom: 2
-    center: new google.maps.LatLng 0, 0
-    disableDefaultUI: true
-    mapTypeId: google.maps.MapTypeId.ROADMAP
-    panControl: true
-    zoomControl: true
-    mapTypeControl: false
-    scaleControl: false
-    streetViewControl: true
-    overviewMapControl: false
-
-  $scope.calendarConfig =
-    calendar:
-      height: 600
-      defaultView: 'agendaWeek'
-      editable: true
-      selectable: true
-      header:
-        left: 'month agendaWeek'
-        center: 'title'
-        right: 'today prev,next'
+@ContributeController = ($scope, $http, $location, $routeParams) ->
 
   $scope.eventSources = [[{title: "NOW", start: new Date()}], [], []]
+  $scope.timeIncrements = [0..47].map (offset) ->
+    a = new Date
+    a.setSeconds 0
+    a.setHours(30*offset / 60)
+    a.setMinutes(30*offset % 60)
+    a.toLocaleTimeString()
+  $scope.dates = [0..6].map (day) ->
+    a = new Date
+    a.setDate(a.getDate() - a.getDay() + day)
+    a.toLocaleDateString()
   $scope.mode = null
-  $scope.emails = []
-  $scope.locations = []
+  $scope.days = [0..6]
 
-  $scope.geocoder = new google.maps.Geocoder()
+  $http.get("/api/events/#{$routeParams.id}").success (data, code) ->
+    console.log data
+    $scope.emails = (p.lastName for p in data.invited)
+    $scope.locations = data.locations
+    $scope.responses = data.responses
+    $scope.resMap = {}
+    for res in data.responses
+      for rawDate in res.dates
+        date = new Date(rawDate)
+        time = date.toLocaleTimeString()
+        $scope.resMap[time] ||= []
+        $scope.resMap[time][date.getDay()] = true
+      console.log $scope.resMap
 
-  $scope.map = new google.maps.Map(document.getElementById("mapHolder"), $scope.mapConfig)
+  $scope.moveEmailUp = (email) ->
+    index = $scope.emails.indexOf email
 
-  $scope.addEmail = ->
-    console.log $scope.eventSources
-    email = $scope.emailIn
-    $scope.emails.push email unless email in $scope.emails
-    $scope.emailIn = ""
+    unless index is 0
+      [$scope.emails[index - 1], $scope.emails[index]] = [email, $scope.emails[index - 1]]
 
   $scope.descriptionIn = (title, description) ->
     description = $scope.directionIn
@@ -172,19 +168,22 @@ InfoController.$inject = ['$scope', '$http', '$location']
     }, (results, status) ->
       if status == google.maps.GeocoderStatus.OK
 
-        marker = new google.maps.Marker
-          map: $scope.map
-          position: results[0].geometry.location
+  $scope.moveEmailDown = (email) ->
+    index = $scope.emails.indexOf email
 
-        if not $scope.bounds?
-          $scope.bounds = new google.maps.LatLngBounds results[0].geometry.location, results[0].geometry.location
+    unless index is ($scope.emails.length - 1)
+      [$scope.emails[index + 1], $scope.emails[index]] = [email, $scope.emails[index + 1]]
 
-        $scope.bounds.extend results[0].geometry.location
+  $scope.moveLocationUp = (location) ->
+    index = $scope.locations.indexOf location
 
-        $scope.map.fitBounds $scope.bounds
-    );
+    unless index is 0
+      [$scope.locations[index - 1], $scope.locations[index]] = [location, $scope.locations[index - 1]]
 
-  $scope.removeLocation = (location) ->
-    $scope.locations = (e for e in $scope.locations when e isnt location)
+  $scope.moveLocationDown = (location) ->
+    index = $scope.locations.indexOf location
 
-ContributeController.$inject = ['$scope', '$http', '$location']
+    unless index is ($scope.locations.length - 1)
+      [$scope.locations[index + 1], $scope.locations[index]] = [location, $scope.locations[index + 1]]
+
+ContributeController.$inject = ['$scope', '$http', '$location', '$routeParams']

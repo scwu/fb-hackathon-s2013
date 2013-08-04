@@ -27,6 +27,7 @@ module.exports = (app) ->
   restfulRoutes app, 'responses'
 
   app.get '/*', (req, res, next) ->
+    console.log "took generic route"
     controllers.example.index req, res, next
 
 

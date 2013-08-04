@@ -29,18 +29,19 @@ module.exports =
   createResponse: (req, res) ->
     response = new Response req.body
 
-    Event
-      .findById(req.params.id)
-      .populate('responses')
-      .populate('invited')
-      .exec (err, event) ->
-        event.responses.push response
+    response.save (err, saved) ->
+      Event
+        .findById(req.params.id)
+        .populate('responses')
+        .populate('invited')
+        .exec (err, event) ->
+          event.responses.push saved
 
-        event.save (err, update) ->
-          if not err
-            res.send update
-          else
-            res.send 500, err
+          event.save (err, update) ->
+            if not err
+              res.send update
+            else
+              res.send 500, err
 
   # Gets event by id
   get: (req, res) ->
