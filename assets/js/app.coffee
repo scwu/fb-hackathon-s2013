@@ -40,8 +40,8 @@ IndexController.$inject = ['$scope', '$http', '$location']
 @InfoController = ($scope, $http, $location) ->
 
   $scope.mapConfig =
-    zoom: 2
-    center: new google.maps.LatLng 0, 0
+    zoom: 12
+    center: new google.maps.LatLng 40.7142, 74.0064
     disableDefaultUI: true
     mapTypeId: google.maps.MapTypeId.ROADMAP
     panControl: true
@@ -66,6 +66,7 @@ IndexController.$inject = ['$scope', '$http', '$location']
   $scope.mode = null
   $scope.emails = []
   $scope.locations = []
+  $scope.markers = []
 
   $scope.geocoder = new google.maps.Geocoder()
 
@@ -93,16 +94,24 @@ IndexController.$inject = ['$scope', '$http', '$location']
           map: $scope.map
           position: results[0].geometry.location
 
+        marker.loc = location
+
         if not $scope.bounds?
           $scope.bounds = new google.maps.LatLngBounds results[0].geometry.location, results[0].geometry.location
 
         $scope.bounds.extend results[0].geometry.location
 
         $scope.map.fitBounds $scope.bounds
+        google.maps.event.trigger($scope.map, 'resize')
+        $scope.markers.push marker unless marker in $scope.markers
     );
 
   $scope.removeLocation = (location) ->
     $scope.locations = (e for e in $scope.locations when e isnt location)
+    removed = (e for e in $scope.markers when e.loc is location)
+    for e in removed
+      e.setMap null
+    $scope.markers = (e for e in $scope.markers when e.loc isnt location)
 
 InfoController.$inject = ['$scope', '$http', '$location']
 

@@ -83,6 +83,17 @@ function makeApiCall(cb) {
   });
 }
 
+function getName(cb) {
+  gapi.client.load('plus', 'v1', function() {
+    var request = gapi.client.plus.people.get({
+      'userId': 'me'
+    });
+    request.execute(function(resp) {
+      cb(resp.displayName);
+    });
+  });
+}
+
 function googleToEvent(gevent) {
   var evt = {};
 
