@@ -21,11 +21,13 @@ body
 
 #title 
   position: absolute;
+  cursor default
   width: 100%;
   background-color: #482647;
   height: 50%
   left 0
   text-align: center
+  user-select: none
 
   h1
     position relative
@@ -66,6 +68,7 @@ body
 
 .front-btn
   cursor pointer
+  user-select none
   vertical-align middle
   font-size: 2em
   color white
@@ -81,6 +84,7 @@ body
   padding:1em;
   border 3px solid white
   font-family 'Cabin', sans-serif
+  background-color rgba(0, 0, 0, .25)
   transition background-color .25s
 
 .front-btn:hover
