@@ -28,7 +28,7 @@ ul.nav#head(ng-show='mode == null')
     a.icon_type#save(href='#', ng-click='mode = "save"')
       .icon_title.front-btn SAVE
 
-.event_card
+.event_card(ng-show='mode == null')
   .event_info_confirm
     h3 TITLE: TITLE OF EVENT HERE
     h4 DESCRIPTION: DESCRIPTION OF EVENT HERE
