@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript" id="jquery"></script>
+  <link href="https://ss1.4sqi.net/styles/third_party/leaflet-811bbe17aab6403fa760a25378f6e091.css" type="text/css" rel="stylesheet" />
+  <link href="https://ss1.4sqi.net/styles/third_party/apisamples-0392cfe95c9fd32087ab6d80fcb80175.css" type="text/css" rel="stylesheet" />
+
+  <script src="https://ss1.4sqi.net/scripts/apisamples-35608dc9c26343e74f5d99fc20bae6c5.js" type="text/javascript"></script>
+  <script src="https://ss0.4sqi.net/scripts/third_party/jquery.ba-bbq-eddd4adf74d0c1310a401475178c57df.js" type="text/javascript"></script>
+  <script src="https://ss1.4sqi.net/scripts/third_party/leaflet-33a0ffb9d515d9e8e130778090a06816.js" type="text/javascript"></script>
+  <script type="text/javascript">L.Icon.Default.imagePath = '/img/leaflet/images';</script>
+  <script src="https://ss1.4sqi.net/scripts/third_party/wax.leaf.min-152e427ce5e0201f0982929193a7a53c.js" type="text/javascript"></script>
+
+  <style type="text/css">
+    html { height: 100%; }
+    body { height: 100%; margin: 0; padding: 0; }
+    /* Give our markers a background image */
+    .leaflet-marker-icon {
+      background: url(https://foursquare.com/img/pin-blue-transparent.png);
+      padding: 6px;
+      padding-bottom: 17px;
+      top: -6px;
+      left: -6px;
+      }
+  </style>
+</head>
+<body>
+  <div id="demo"></div>
+<script>
+$(document).ready(function(){
+  var x=document.getElementById("demo");
+  function getLocation()
+    {
+    if (navigator.geolocation)
+      {
+      navigator.geolocation.getCurrentPosition(showPosition);
+      }
+    }
+  function showPosition(position)
+    {
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', 'https://api.foursquare.com/v2/venues/search?ll=' + position.coords.latitude +',' + position.coords.longitude + '&oauth_token=GKX444SGE4VP2NNF5HW4RNBOXMR45AU1WIR5NPJBGNWHG1H5&v=20130804');
+        xhr.onreadystatechange = function(){
+          if (xhr.readyState==4 && xhr.status === 200){
+            x.innerHTML=xhr.responseText;
+          }
+        };
+        xhr.send(null);
+    }
+
+  getLocation();
+});
+</script>
+</body>
+</html>

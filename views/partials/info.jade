@@ -1,20 +1,30 @@
-.container
-  h1 Info&nbsp;
-    small Tell us a bit about what you are planning
-  ul.nav.nav-pills#head
-    li.icon(ng-class='{active: mode == "times"}')
-      a(href='#', ng-click='mode = "times"')
-        img.icon_type(src="/img/when.png")
-    li.icon(ng-class='{active: mode == "location"}')
-      a(href='#', ng-click='mode = "location"')
-        img.icon_type(src="/img/where.png")
-    li.icon(ng-class='{active: mode == "people"}')
-      a(href='#', ng-click='mode = "people"')
-        img.icon_type(src="/img/who.png")
-    li.icon(ng-class='{active: mode == "save"}')
-      a(href='#', ng-click='mode = "save"')
-        img.icon_type(src="/img/save.png")
+.info_title(ng-hide='mode == null')
+  .menu_icons
+    ul.nav#menuhead(ng-hide='mode == null')
+      li.small_icon(ng-class='{active: mode == "times"}')
+        a(href='#', ng-click='mode = "times"')
+          img.icon_menu(src="/img/when.png")
+      li.small_icon(ng-class='{active: mode == "location"}')
+        a(href='#', ng-click='mode = "location"')
+          img.icon_menu(src="/img/where.png")
+      li.small_icon(ng-class='{active: mode == "people"}')
+        a(href='#', ng-click='mode = "people"')
+          img.icon_menu(src="/img/who.png")
+      li.small_icon(ng-class='{active: mode == "save"}')
+        a(href='#', ng-click='mode = "save"')
+          img.icon_menu(src="/img/save.png")
 
+ul.nav#head(ng-show='mode == null')
+  li.icon(ng-class='{active: mode == "times"}')
+    a.icon_type#when(href='#', ng-click='mode = "times"')
+  li.icon(ng-class='{active: mode == "location"}')
+    a.icon_type#where(href='#', ng-click='mode = "location"')
+  li.icon(ng-class='{active: mode == "people"}')
+    a.icon_type#who(href='#', ng-click='mode = "people"')
+  li.icon(ng-class='{active: mode == "save"}')
+    a.icon_type#save(href='#', ng-click='mode = "save"')
+
+.container
   .row
     #times(ng-show='mode == "times"')
       .span12
