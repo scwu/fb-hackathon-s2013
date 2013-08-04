@@ -52,8 +52,6 @@ function makeApiCall() {
       'timeZone': 'UTC'
     });
     request.execute(function(resp) {
-      
-      console.log(resp);
 
       for (var i = 0; i < resp.items.length; i++) {
         if (resp.items[i].summary) {
@@ -79,6 +77,8 @@ function makeApiCall() {
           document.getElementById('content').appendChild(eventDiv);
         }
       }
+
+      // $('#calendar').fullCalendar('rerenderEvents');
     });
   });
 }
@@ -87,24 +87,24 @@ function googleToEvent(gevent) {
   var evt = {};
 
   if (gevent.start.dateTime) {
-    evt.start = (new Date(gevent.start.dateTime)).getTime() / 1000;
+    evt.start = (new Date(gevent.start.dateTime)).toISOString();
     evt.allDay = false;
   } else if (gevent.start.date) {
-    evt.start = (new Date(gevent.start.date)).getTime() / 1000;
+    evt.start = (new Date(gevent.start.date)).toISOString();
     evt.allDay = true;
   }
 
-  if (gevent.end.dateTime) {
-    evt.end = (new Date(gevent.end.dateTime)).getTime() / 1000;
+  if (gevent.endTimeUnspecified) {
+    evt.allDay = false;
+  } else if (gevent.end.dateTime) {
+    evt.end = (new Date(gevent.end.dateTime)).toISOString();
     evt.allDay = false;
   } else if (gevent.end.date) {
-    evt.end = (new Date(gevent.end.date)).getTime() / 1000;
+    evt.end = (new Date(gevent.end.date)).toISOString();
     evt.allDay = true;
   }
 
   evt.title = gevent.summary;
-
-  console.log(evt);
 
   return evt;
 }
