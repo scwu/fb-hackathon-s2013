@@ -35,7 +35,7 @@ IndexController.$inject = ['$scope', '$http', '$location']
 
 @InfoController = ($scope, $http, $location) ->
 
-  $scope.mapConfig = 
+  $scope.mapConfig =
     zoom: 2
     center: new google.maps.LatLng 0, 0
     disableDefaultUI: true
@@ -59,7 +59,7 @@ IndexController.$inject = ['$scope', '$http', '$location']
         right: 'today prev,next'
 
   $scope.eventSources = [[{title: "NOW", start: new Date()}], [], []]
-  $scope.mode = "times"
+  $scope.mode = null
   $scope.emails = []
   $scope.locations = []
 
