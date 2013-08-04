@@ -50,6 +50,15 @@ module.exports =
         res.send user.events
       else
         res.send 500, err
+
+  getEmail: (req, res) ->
+      User.findById(req.params.id)
+        .populate('email')
+        .exec (err, user) ->
+          if not err
+            res.send user.email
+          else
+            res.send 500, err
              
   # Updates user with data from `req.body`
   update: (req, res) ->

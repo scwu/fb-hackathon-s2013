@@ -4,6 +4,7 @@ Schema = mongoose.Schema
 User = new mongoose.Schema(
   firstName: String
   lastName: String
+  email: String
   events: [{ type: Schema.Types.ObjectId, ref: 'Event' }]
 )
 
