@@ -26,6 +26,8 @@ module.exports =
         res.send err
         res.statusCode = 500
 
+<<<<<<< HEAD
+=======
   createResponse: (req, res) ->
     response = new Response req.body
 
@@ -41,7 +43,8 @@ module.exports =
             res.send update
           else
             res.send 500, err
-
+        
+>>>>>>> 5b60cf97b66d0dfac0d6b329362b30ec15646260
   # Gets event by id
   get: (req, res) ->
     Event
@@ -73,6 +76,9 @@ module.exports =
         res.send err
         res.statusCode = 500
 
+<<<<<<< HEAD
+
+=======
   ranking: (req, res) ->
     Event
     .findById(req.params.id)
@@ -95,3 +101,4 @@ module.exports =
       locs_score = (v for k, v of locs_score)
       locs_score.sort (a,b) -> b.score - a.score
       res.send (x._id for x in locs_score)
+>>>>>>> 5b60cf97b66d0dfac0d6b329362b30ec15646260
