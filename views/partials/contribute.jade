@@ -1,0 +1,76 @@
+.info_title(ng-hide='mode == null')
+  .menu_icons
+    ul.nav#menuhead(ng-hide='mode == null')
+      li.small_icon(ng-class='{active: mode == "times"}')
+        a(href='#', ng-click='mode = "times"')
+          img.icon_menu(src="/img/when.png")
+      li.small_icon(ng-class='{active: mode == "location"}')
+        a(href='#', ng-click='mode = "location"')
+          img.icon_menu(src="/img/where.png")
+      li.small_icon(ng-class='{active: mode == "people"}')
+        a(href='#', ng-click='mode = "people"')
+          img.icon_menu(src="/img/who.png")
+      li.small_icon(ng-class='{active: mode == "save"}')
+        a(href='#', ng-click='mode = "save"')
+          img.icon_menu(src="/img/save.png")
+
+ul.nav#head(ng-show='mode == null')
+  li.icon(ng-class='{active: mode == "times"}')
+    a.icon_type#when(href='#', ng-click='mode = "times"')
+      .icon_title.front-btn WHEN?
+  li.icon(ng-class='{active: mode == "location"}')
+    a.icon_type#where(href='#', ng-click='mode = "location"')
+      .icon_title.front-btn WHERE?
+  li.icon(ng-class='{active: mode == "people"}')
+    a.icon_type#who(href='#', ng-click='mode = "people"')
+      .icon_title.front-btn WHO?
+  li.icon(ng-class='{active: mode == "save"}')
+    a.icon_type#save(href='#', ng-click='mode = "save"')
+      .icon_title.front-btn SAVE
+
+.container
+  .row
+    #times(ng-show='mode == "times"')
+      .span12
+        .calendar(ui-calendar='calendarConfig.calendar', calendar='myCalendar', ng-model='eventSources')
+    #location(ng-show='mode == "location"')
+      .span5.center
+        form.form-inline
+          input.input-large(type='text', placeholder='Location :D', ng-model='locationIn')
+          | &nbsp;
+          button.btn(type='submit', ng-click='addLocation()') Add
+        table.table.table-striped
+          thead
+            tr
+              th
+              th Location
+              th
+          tbody
+            tr(ng-repeat='location in locations')
+              td#tdsmall
+                i.icon-user
+              td {{location}}
+              td#tdsmall
+                button.btn.btn-danger.btn-small(ng-click='removeLocation(location)')
+                  i.icon-white.icon-remove
+      #mapHolder
+    #people(ng-show='mode == "people"')
+      .span5.center
+        form.form-inline
+          input.input-large(type='text', placeholder='Email', ng-model='emailIn')
+          | &nbsp;
+          button.btn(type='submit', ng-click='addEmail()') Add
+        table.table.table-striped
+          thead
+            tr
+              th
+              th E-mail
+              th
+          tbody
+            tr(ng-repeat='email in emails')
+              td#tdsmall
+                i.icon-user
+              td {{email}}
+              td#tdsmall
+                button.btn.btn-danger.btn-small(ng-click='removeEmail(email)')
+                  i.icon-white.icon-remove
