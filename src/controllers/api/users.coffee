@@ -1,4 +1,5 @@
 User = require '../../models/user'
+Event = require '../../models/event'
 
 # User model's CRUD controller.
 module.exports = 
@@ -18,6 +19,21 @@ module.exports =
       else
         res.send err
         res.statusCode = 500
+
+  createEvent: (req, res) ->
+    event = new Event req.body
+
+    event.save (err, savedEvent) ->
+      User.findById(req.params.id).populate('events').exec (err, user) ->
+
+        user.events.push savedEvent
+
+        user.save (err, updated) ->
+          if not err
+            res.send updated.events[updated.events.length - 1]
+          else
+            res.send 500, err
+
         
   # Gets user by id
   get: (req, res) ->
@@ -27,6 +43,13 @@ module.exports =
       else
         res.send err
         res.statusCode = 500
+
+  getEvents: (req, res) ->
+    User.findById(req.params.id).populate('events').exec (err, user) ->
+      if not err
+        res.send user.events
+      else
+        res.send 500, err
              
   # Updates user with data from `req.body`
   update: (req, res) ->

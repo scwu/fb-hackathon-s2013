@@ -1,4 +1,5 @@
 Event = require '../../models/event'
+Response = require '../../models/response'
 dates = require '../../helpers/dates'
 
 # Event model's CRUD controller.
@@ -23,6 +24,22 @@ module.exports =
       else
         res.send err
         res.statusCode = 500
+
+  createResponse: (req, res) ->
+    response = new Response req.body
+
+    Event
+      .findById(req.params.id)
+      .populate('responses')
+      .populate('invited')
+      .exec (err, event) ->
+        event.responses.push response
+
+        event.save (err, update) ->
+          if not err
+            res.send update
+          else
+            res.send 500, err
         
   # Gets event by id
   get: (req, res) ->
