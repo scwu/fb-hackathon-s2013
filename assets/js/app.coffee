@@ -22,8 +22,12 @@ autoresponseModule.config [
       controller: InfoController
 
     $routeProvider.when "/:id",
-      templateUrl: "partials/contribute"
-      controller: ContributeController
+      templateUrl: "partials/confirmed"
+      controller: ConfirmedController
+
+    $routeProvider.when "/:id/event",
+      templateUrl: "partials/contributed"
+      controller: ContributedController
 
     $routeProvider.otherwise redirectTo: "/"
     $locationProvider.html5Mode true
@@ -115,7 +119,86 @@ IndexController.$inject = ['$scope', '$http', '$location']
 
 InfoController.$inject = ['$scope', '$http', '$location']
 
-@ContributeController = ($scope, $http, $location, $routeParams) ->
+@ContributedController = ($scope, $http, $location) ->
+
+  $scope.mapConfig =
+    zoom: 12
+    center: new google.maps.LatLng 40.7142, 74.0064
+    disableDefaultUI: true
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+    panControl: true
+    zoomControl: true
+    mapTypeControl: false
+    scaleControl: false
+    streetViewControl: true
+    overviewMapControl: false
+
+  $scope.calendarConfig =
+    calendar:
+      height: 600
+      defaultView: 'agendaWeek'
+      editable: true
+      selectable: true
+      header:
+        left: 'month agendaWeek'
+        center: 'title'
+        right: 'today prev,next'
+
+  $scope.eventSources = [[{title: "NOW", start: new Date()}], [], []]
+  $scope.mode = null
+  $scope.emails = []
+  $scope.locations = []
+  $scope.markers = []
+
+  $scope.geocoder = new google.maps.Geocoder()
+
+  $scope.map = new google.maps.Map(document.getElementById("mapHolder"), $scope.mapConfig)
+
+  $scope.addEmail = ->
+    console.log $scope.eventSources
+    email = $scope.emailIn
+    $scope.emails.push email unless email in $scope.emails
+    $scope.emailIn = ""
+
+  $scope.removeEmail = (email) ->
+    $scope.emails = (e for e in $scope.emails when e isnt email)
+
+  $scope.addLocation = ->
+    location = $scope.locationIn
+    $scope.locations.push location unless location in $scope.locations
+    $scope.locationIn = ""
+    $scope.geocoder.geocode({
+      address : location
+    }, (results, status) ->
+      if status == google.maps.GeocoderStatus.OK
+
+        marker = new google.maps.Marker
+          map: $scope.map
+          position: results[0].geometry.location
+
+        marker.loc = location
+
+        if not $scope.bounds?
+          $scope.bounds = new google.maps.LatLngBounds results[0].geometry.location, results[0].geometry.location
+
+        $scope.bounds.extend results[0].geometry.location
+
+        $scope.map.fitBounds $scope.bounds
+        google.maps.event.trigger($scope.map, 'resize')
+        $scope.markers.push marker unless marker in $scope.markers
+    );
+
+  $scope.removeLocation = (location) ->
+    $scope.locations = (e for e in $scope.locations when e isnt location)
+    removed = (e for e in $scope.markers when e.loc is location)
+    for e in removed
+      e.setMap null
+    $scope.markers = (e for e in $scope.markers when e.loc isnt location)
+
+ContributedController.$inject = ['$scope', '$http', '$location']
+
+
+@ConfirmedController = ($scope, $http, $location, $routeParams) ->
 
   $scope.eventSources = [[{title: "NOW", start: new Date()}], [], []]
   $scope.timeIncrements = [0..47].map (offset) ->
@@ -163,10 +246,6 @@ InfoController.$inject = ['$scope', '$http', '$location']
     location = $scope.locationIn
     $scope.locations.push location unless location in $scope.locations
     $scope.locationIn = ""
-    $scope.geocoder.geocode({
-      address : location
-    }, (results, status) ->
-      if status == google.maps.GeocoderStatus.OK
 
   $scope.moveEmailDown = (email) ->
     index = $scope.emails.indexOf email
@@ -186,4 +265,4 @@ InfoController.$inject = ['$scope', '$http', '$location']
     unless index is ($scope.locations.length - 1)
       [$scope.locations[index + 1], $scope.locations[index]] = [location, $scope.locations[index + 1]]
 
-ContributeController.$inject = ['$scope', '$http', '$location', '$routeParams']
+ConfirmedController.$inject = ['$scope', '$http', '$location', '$routeParams']
