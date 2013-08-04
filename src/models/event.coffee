@@ -9,6 +9,8 @@ Event = new mongoose.Schema(
 	invited: [{ type: Schema.Types.ObjectId, ref: 'User' }]
 	responses: [{ type: Schema.Types.ObjectId, ref: 'Response' }]
 	duration: Number
+  title: String
+  description: String
 )
 
 module.exports = mongoose.model 'Event', Event
