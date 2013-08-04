@@ -2,13 +2,13 @@ Event = require '../../models/event'
 dates = require '../../helpers/dates'
 
 # Event model's CRUD controller.
-module.exports = 
+module.exports =
 
   # Lists all events
   index: (req, res) ->
     Event.find {}, (err, events) ->
       res.send events
-      
+
   # Creates new event with data from `req.body`
   create: (req, res) ->
     event = new Event req.body
@@ -23,7 +23,7 @@ module.exports =
       else
         res.send err
         res.statusCode = 500
-        
+
   # Gets event by id
   get: (req, res) ->
     Event
@@ -36,7 +36,7 @@ module.exports =
       else
         res.send err
         res.statusCode = 500
-             
+
   # Updates event with data from `req.body`
   update: (req, res) ->
     Event.findByIdAndUpdate req.params.id, {"$set":req.body}, (err, event) ->
@@ -45,7 +45,7 @@ module.exports =
       else
         res.send err
         res.statusCode = 500
-    
+
   # Deletes event by id
   delete: (req, res) ->
     Event.findByIdAndRemove req.params.id, (err) ->
@@ -54,5 +54,5 @@ module.exports =
       else
         res.send err
         res.statusCode = 500
-      
-  
+
+

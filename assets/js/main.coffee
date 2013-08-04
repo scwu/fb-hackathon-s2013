@@ -2,7 +2,8 @@
 #= require vendor/underscore
 #= require vendor/backbone
 
-#= require template
+#= require_tree models/
+#= require_tree collections/
 #= require_tree views/
 
 class App.Router extends Backbone.Router
