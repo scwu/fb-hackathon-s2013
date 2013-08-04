@@ -74,3 +74,9 @@ ul.nav#head(ng-show='mode == null')
               td#tdsmall
                 button.btn.btn-danger.btn-small(ng-click='removeEmail(email)')
                   i.icon-white.icon-remove
+    #save(ng-show='mode == "save"')
+      .span5.center
+        form.form-inline
+          input.input-large(type='text', placeholder='title', ng-model='titleIn')
+          textarea.span5(type='text', rows="3", placeholder='description', ng-model='descriptionIn')
+          button.btn(type='submit', ng-click='saveEvent()') Create Event

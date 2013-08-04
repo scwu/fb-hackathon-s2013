@@ -146,6 +146,11 @@ InfoController.$inject = ['$scope', '$http', '$location']
     $scope.emails.push email unless email in $scope.emails
     $scope.emailIn = ""
 
+  $scope.descriptionIn = (title, description) ->
+    description = $scope.directionIn
+    title = $scope.titleIn
+    $scope.directionIn = ""
+
   $scope.removeEmail = (email) ->
     $scope.emails = (e for e in $scope.emails when e isnt email)
 
