@@ -57,26 +57,54 @@ function makeApiCall() {
 
       for (var i = 0; i < resp.items.length; i++) {
         if (resp.items[i].summary) {
+          var evt = resp.items[i];
 
-          var evnt = document.createElement('div');
+          var eventDiv = document.createElement('div');
 
           var summary = document.createElement('h2');
-          summary.appendChild(document.createTextNode(resp.items[i].summary));
+          summary.appendChild(document.createTextNode(evt.summary));
 
-          var loc = resp.items[i].location;
           var location = document.createElement('h3');
-          location.appendChild(document.createTextNode(loc));
+          location.appendChild(document.createTextNode(evt.location));
 
-          evnt.appendChild(summary);
-          evnt.appendChild(location);
+          eventDiv.appendChild(summary);
+          eventDiv.appendChild(location);
 
-          if (loc) {
-            addAddress(loc);
+          if (evt.location) {
+            addAddress(evt.location);
           }
 
-          document.getElementById('content').appendChild(evnt);
+          $('#calendar').fullCalendar('renderEvent', googleToEvent(evt), true);
+
+          document.getElementById('content').appendChild(eventDiv);
         }
       }
     });
   });
+}
+
+function googleToEvent(gevent) {
+  var evt = {};
+
+  if (gevent.start.dateTime) {
+    evt.start = (new Date(gevent.start.dateTime)).getTime() / 1000;
+    evt.allDay = false;
+  } else if (gevent.start.date) {
+    evt.start = (new Date(gevent.start.date)).getTime() / 1000;
+    evt.allDay = true;
+  }
+
+  if (gevent.end.dateTime) {
+    evt.end = (new Date(gevent.end.dateTime)).getTime() / 1000;
+    evt.allDay = false;
+  } else if (gevent.end.date) {
+    evt.end = (new Date(gevent.end.date)).getTime() / 1000;
+    evt.allDay = true;
+  }
+
+  evt.title = gevent.summary;
+
+  console.log(evt);
+
+  return evt;
 }
