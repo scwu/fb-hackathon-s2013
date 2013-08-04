@@ -1,4 +1,5 @@
 Event = require '../../models/event'
+Response = require '../../models/response'
 dates = require '../../helpers/dates'
 
 # Event model's CRUD controller.
@@ -23,6 +24,22 @@ module.exports =
       else
         res.send err
         res.statusCode = 500
+
+  createResponse: (req, res) ->
+    response = new Response req.body
+
+    Event
+      .findById(req.params.id)
+      .populate('responses')
+      .populate('invited')
+      .exec (err, event) ->
+        event.responses.push response
+
+        event.save (err, update) ->
+          if not err
+            res.send update
+          else
+            res.send 500, err
         
   # Gets event by id
   get: (req, res) ->
@@ -54,5 +71,24 @@ module.exports =
       else
         res.send err
         res.statusCode = 500
-      
-  
+
+  ranking: (req, res) ->
+    Event
+    .findById(req.params.id)
+    .populate('responses')
+    .populate('invited')
+    .exec (err, event) ->
+      locations = event.locations
+      for loc in locations
+        ratings = []
+        ranking_data = {votes: [], id: loc}
+        for response in event.responses
+          res_locs = response.locations
+          index = res_locs.indexOf loc
+          index = res_locs.length - index
+          ranking_data.votes.append index
+        ratings.push ranking_data
+
+      locs_score = Ranking.imdb ratings, true
+      locs_score.sort (a,b) -> b.score - a.score
+      res.send x.id for x in locs_score
