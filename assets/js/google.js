@@ -50,8 +50,9 @@ function makeApiCall(cb) {
     });
     request.execute(function(resp) {
 
-      console.log(resp);
-      cb();
+      getName(function(name)) {
+        cb({name: name, resp: resp});
+      }
 
       // for (var i = 0; i < resp.items.length; i++) {
       //   if (resp.items[i].summary) {
