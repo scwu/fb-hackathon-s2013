@@ -28,8 +28,8 @@ autoresponseModule.config [
 @IndexController = ($scope, $http, $location) ->
 
   $scope.next = ->
-    $scope.handleAuthClick;
-
+    handleAuthClick ->
+      $location.path '/info'
 
 IndexController.$inject = ['$scope', '$http', '$location']
 

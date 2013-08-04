@@ -26,19 +26,21 @@ function checkAuth() {
 }
 
 
-function handleAuthResult(authResult) {
-  if (authResult && !authResult.error) {
-    makeApiCall();
+function handleAuthResult(cb) {
+  return function(authResult) {
+    if (authResult && !authResult.error) {
+      makeApiCall(cb);
+    }
   }
 }
 
-function handleAuthClick(event) {
-  gapi.auth.authorize({client_id: clientId, scope: scopes, immediate: false}, handleAuthResult);
+function handleAuthClick(cb) {
+  gapi.auth.authorize({client_id: clientId, scope: scopes, immediate: false}, handleAuthResult(cb));
   return false;
 }
 
 // Load the API and make an API call.  Display the results on the screen.
-function makeApiCall() {
+function makeApiCall(cb) {
   gapi.client.load('calendar', 'v3', function() {
     var request = gapi.client.calendar.events.list({
       'calendarId': 'primary',
@@ -49,6 +51,7 @@ function makeApiCall() {
     request.execute(function(resp) {
 
       console.log(resp);
+      cb();
 
       // for (var i = 0; i < resp.items.length; i++) {
       //   if (resp.items[i].summary) {
