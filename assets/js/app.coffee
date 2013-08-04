@@ -35,6 +35,18 @@ IndexController.$inject = ['$scope', '$http', '$location']
 
 @InfoController = ($scope, $http, $location) ->
 
+  $scope.mapConfig = 
+    zoom: 2
+    center: new google.maps.LatLng 0, 0
+    disableDefaultUI: true
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+    panControl: true
+    zoomControl: true
+    mapTypeControl: false
+    scaleControl: false
+    streetViewControl: true
+    overviewMapControl: false
+
   $scope.calendarConfig =
     calendar:
       height: 600
@@ -51,6 +63,10 @@ IndexController.$inject = ['$scope', '$http', '$location']
   $scope.emails = []
   $scope.locations = []
 
+  $scope.geocoder = new google.maps.Geocoder()
+
+  $scope.map = new google.maps.Map(document.getElementById("mapHolder"), $scope.mapConfig)
+
   $scope.addEmail = ->
     console.log $scope.eventSources
     email = $scope.emailIn
@@ -64,6 +80,22 @@ IndexController.$inject = ['$scope', '$http', '$location']
     location = $scope.locationIn
     $scope.locations.push location unless location in $scope.locations
     $scope.locationIn = ""
+    $scope.geocoder.geocode({
+      address : location
+    }, (results, status) ->
+      if status == google.maps.GeocoderStatus.OK
+
+        marker = new google.maps.Marker
+          map: $scope.map
+          position: results[0].geometry.location
+
+        if not $scope.bounds?
+          $scope.bounds = new google.maps.LatLngBounds results[0].geometry.location, results[0].geometry.location
+
+        $scope.bounds.extend results[0].geometry.location
+
+        $scope.map.fitBounds $scope.bounds
+    );
 
   $scope.removeLocation = (location) ->
     $scope.locations = (e for e in $scope.locations when e isnt location)
