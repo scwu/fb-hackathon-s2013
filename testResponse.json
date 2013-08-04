@@ -1,7 +1,7 @@
 {
-	"locations": ["Starbucks", "Chipotle", "Empire", "Bowling"],
-	"dates" : ["2013-08-03T21:00:00.000Z"],
-	"invited": ["51fda4f0a601fcd403000001", "51fda500a601fcd403000002", "51fda510a601fcd403000003"],
-	"responses": ["51fdae86fcff6d8c05000003", "51fdae94fcff6d8c05000004", "51fdaea0fcff6d8c05000005"],
-	"duration": 2
+  "dates": ["2013-08-05T11:30:00.000Z"],
+  "attending": true,
+  "comment": "",
+  "locations": [],
+  "user": "51fe315679e347cdb6000006"
 }
