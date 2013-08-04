@@ -2,12 +2,19 @@
   h1 Info&nbsp;
     small Tell us a bit about what you are planning
   ul.nav.nav-pills#head
-    li(ng-class='{active: mode == "times"}')
-      a(href='#', ng-click='mode = "times"') Times
-    li(ng-class='{active: mode == "location"}')
-      a(href='#', ng-click='mode = "location"') Location
-    li(ng-class='{active: mode == "people"}')
-      a(href='#', ng-click='mode = "people"') People
+    li.icon(ng-class='{active: mode == "times"}')
+      a(href='#', ng-click='mode = "times"')
+        img.icon_type(src="/img/when.png")
+    li.icon(ng-class='{active: mode == "location"}')
+      a(href='#', ng-click='mode = "location"')
+        img.icon_type(src="/img/where.png")
+    li.icon(ng-class='{active: mode == "people"}')
+      a(href='#', ng-click='mode = "people"')
+        img.icon_type(src="/img/who.png")
+    li.icon(ng-class='{active: mode == "save"}')
+      a(href='#', ng-click='mode = "save"')
+        img.icon_type(src="/img/save.png")
+
   .row
     #times(ng-show='mode == "times"')
       .span12
