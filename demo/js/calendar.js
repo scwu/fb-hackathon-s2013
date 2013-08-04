@@ -6,7 +6,8 @@ $(document).ready(function() {
         // put your options and callbacks here
         editable: true,
         defaultView: 'agendaWeek',
-        ignoreTimezone: false
+        ignoreTimezone: false,
+        selectable: true
     });
 
 });
