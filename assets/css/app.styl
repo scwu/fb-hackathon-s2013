@@ -1,8 +1,85 @@
 @import 'lib/angular-ui'
 @import 'nib'
 
-body
-  padding-top 60px
+html
+  height: 100%;
 
-.button-div
-  padding-top 23px
+body
+  background-color: #f5f5f5;
+  height: 100%;
+
+.navbar button
+  margin-left: 10px;
+
+.white
+  background-color: #fff;
+
+#content 
+  position: relative;
+  width: 100%;
+  min-height: 100%;
+
+#title 
+  position: absolute;
+  width: 100%;
+  background-color: #482647;
+  height: 50%
+  left 0
+  text-align: center
+
+  h1
+    position relative
+    font-family 'Cabin', sans-serif
+    color white
+    font-weight 200
+    font-size 4em
+    letter-spacing: 0.4em
+    top 30%
+
+  h2
+    position relative
+    font-family 'Cabin', sans-serif
+    letter-spacing 0.2em
+    color white
+    font-size 2em
+    font-weight 200
+    top 30%
+
+.subcontainer 
+  position: absolute;
+  top: 50%;
+  width: 50%;
+  height: 50%;
+
+#right
+  left: 50%;
+  background-image: url("/img/paris.jpg");
+  background-position: center;
+  background-size: cover;
+
+#left
+  background-image: url("/img/newyork.png");
+  background-position: center;
+  background-size: cover;
+
+.front-btn
+  cursor pointer
+  vertical-align middle
+  font-size: 2em
+  color white
+  position absolute
+  top 48%
+  margin: 0 0 0 -5em
+  text-align center
+  display block
+  width 10em
+  left 50%
+  padding:1em;
+  border 3px solid white
+  font-family 'Cabin', sans-serif
+
+.front-btn:hover
+  color white
+  text-decoration none
+
+
