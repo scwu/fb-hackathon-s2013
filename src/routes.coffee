@@ -5,6 +5,9 @@ module.exports = (app) ->
   app.get '/', (req, res, next) ->
     controllers.example.index req, res, next
 
+  app.get '/partials/:view', (req, res, next) ->
+    res.render 'partials/' + req.params.view, {layout: false}
+
   restfulRoutes app, 'users'
   app.get '/api/users/:id/events', (req, res, next) ->
     controllers.api.users.getEvents req, res, next
@@ -19,6 +22,10 @@ module.exports = (app) ->
     controllers.api.events.ranking req, res, next
 
   restfulRoutes app, 'responses'
+
+  app.get '/*', (req, res, next) ->
+    controllers.example.index req, res, next
+
 
 restfulRoutes = (app, model) ->
   app.get "/api/#{model}", (req, res, next) ->

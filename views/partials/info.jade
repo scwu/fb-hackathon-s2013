@@ -1,0 +1,17 @@
+.container
+  h1 Info&nbsp;
+    small Tell us a bit about what you are planning
+  ul.nav.nav-pills#head
+    li(ng-class='{active: mode == "times"}')
+      a(href='#', ng-click='mode = "times"') Times
+    li(ng-class='{active: mode == "location"}')
+      a(href='#', ng-click='mode = "location"') Location
+    li(ng-class='{active: mode == "people"}')
+      a(href='#', ng-click='mode = "people"') People
+  #times(ng-show='mode == "times"')
+  #location(ng-show='mode == "location"')
+    form.form-inline
+      input.input-large(type='text', placeholder='Email')
+      | &nbsp;
+      button.btn(type='submit') Add
+  #people(ng-show='mode == "people"')

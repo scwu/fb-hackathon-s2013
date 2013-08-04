@@ -1,13 +1,3 @@
-!!! 5
-html
-  head
-    title= title
-    != css('index')
-
-    script.
-      window.App = {};
-  body
-    #header
-    #content
-    != js('main')
-    != js('vendor/bootstrap')
+extends layout
+block content
+  #content(ng-view)
