@@ -13,18 +13,16 @@ head
 
   // CSS
   != css('lib/bootstrap')
-  != css('app')
   link(href='https://fonts.googleapis.com/css?family=Cabin', rel='stylesheet', type='text/css')
   != css('lib/bootstrap-responsive')
+  != css('app')
 
   
 body(ng-app='autoresponse')
   block content
-  != js('https://ajax.googleapis.com/ajax/libs/angularjs/1.0.6/angular.min.js')
-  != js('//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js')
+  != js('app')
   script(type='text/javascript', src='https://maps.googleapis.com/maps/api/js?key=AIzaSyAF5O-QreoLDTOYa4eEuBg3JbxbSfTavvY&sensor=false')
   != js('google')
-  != js('app')
   script(type='text/javascript', src='https://apis.google.com/js/client.js?onload=handleClientLoad')
 
 | </html>
