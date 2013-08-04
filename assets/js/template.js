@@ -189,16 +189,9 @@ attrs = attrs || jade.attrs; escape = escape || jade.escape; rethrow = rethrow |
 var buf = [];
 with (locals || {}) {
 var interp;
-buf.push('<div class="container"><div class="hero-unit white"><h1>Welcome to Coffe Express!</h1><p>This project come fully decked out with bootstrap and backbone by default!</p>Now get crackin!</div></div>');
-}
-return buf.join("");
-}
-jade.templates["header"] = function(locals, attrs, escape, rethrow, merge) {
-attrs = attrs || jade.attrs; escape = escape || jade.escape; rethrow = rethrow || jade.rethrow; merge = merge || jade.merge;
-var buf = [];
-with (locals || {}) {
-var interp;
-buf.push('<div class="navbar navbar-inverse navbar-fixed-top"><div class="navbar-inner"><div class="container"><a href="#" class="brand">Coffee Express</a></div></div></div>');
+buf.push('<script id="itemTemplate" type="text/template"></script><div class="container">');
+var ob = JSON.parse()
+buf.push('</div>');
 }
 return buf.join("");
 }
@@ -207,7 +200,7 @@ attrs = attrs || jade.attrs; escape = escape || jade.escape; rethrow = rethrow |
 var buf = [];
 with (locals || {}) {
 var interp;
-buf.push('<div class="container"><div class="hero-unit white"><h1>Welcome to Coffe Express!</h1><p>This project come fully decked out with bootstrap and backbone by default!</p>Now get crackin!</div></div>');
+buf.push('<div>.container#title</div><div>.subcontainer#right</div><div>.subcontainer#left</div>');
 }
 return buf.join("");
 }
