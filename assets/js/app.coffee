@@ -102,10 +102,12 @@ IndexController.$inject = ['$scope', '$http', '$location']
 
         if not $scope.bounds?
           $scope.bounds = new google.maps.LatLngBounds results[0].geometry.location, results[0].geometry.location
+          $scope.bounds.extend results[0].geometry.location
+          $scope.map.setCenter(results[0].geometry.location)
+        else
+          $scope.bounds.extend results[0].geometry.location
+          $scope.map.fitBounds $scope.bounds
 
-        $scope.bounds.extend results[0].geometry.location
-
-        $scope.map.fitBounds $scope.bounds
         google.maps.event.trigger($scope.map, 'resize')
         $scope.markers.push marker unless marker in $scope.markers
     );
