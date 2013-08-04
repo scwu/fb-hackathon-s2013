@@ -5,7 +5,7 @@ module.exports = (app) ->
   app.get '/', (req, res, next) ->
     controllers.example.index req, res, next
 
-  app.get '/calendarAuth', (req, res, next) ->
+  app.get '/calAuth', (req, res, next) ->
     res.redirect '/info'
 
   app.get '/partials/:view', (req, res, next) ->

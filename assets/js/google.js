@@ -13,7 +13,7 @@ var clientId = '201630759555.apps.googleusercontent.com';
 var apiKey = 'AIzaSyAF5O-QreoLDTOYa4eEuBg3JbxbSfTavvY';
 
 // To enter one or more authentication scopes, refer to the documentation for the API.
-var scopes = 'https://www.googleapis.com/auth/calendar';
+var scopes = ['https://www.googleapis.com/auth/calendar', 'https://www.googleapis.com/auth/plus.me', 'https://www.googleapis.com/auth/userinfo.email'];
 
 // Use a button to handle authentication the first time.
 function handleClientLoad() {
@@ -52,36 +52,15 @@ function makeApiCall(cb) {
 
       getName(function(name) {
         if (cb) {
-          cb({name: name, resp: resp});
+
+          getEmail(function(email) {
+            var r = {name: name, email: email, resp: resp};
+            console.log(r);
+            
+            cb();
+          })
         }
       });
-
-      // for (var i = 0; i < resp.items.length; i++) {
-      //   if (resp.items[i].summary) {
-      //     var evt = resp.items[i];
-
-      //     var eventDiv = document.createElement('div');
-
-      //     var summary = document.createElement('h2');
-      //     summary.appendChild(document.createTextNode(evt.summary));
-
-      //     var location = document.createElement('h3');
-      //     location.appendChild(document.createTextNode(evt.location));
-
-      //     eventDiv.appendChild(summary);
-      //     eventDiv.appendChild(location);
-
-      //     if (evt.location) {
-      //       addAddress(evt.location);
-      //     }
-
-      //     $('#calendar').fullCalendar('renderEvent', googleToEvent(evt), true);
-
-      //     document.getElementById('content').appendChild(eventDiv);
-      //   }
-      // }
-
-      // $('#calendar').fullCalendar('rerenderEvents');
     });
   });
 }
@@ -92,18 +71,21 @@ function getName(cb) {
       'userId': 'me'
     });
     request.execute(function(resp) {
-      cb(resp.displayName);
+      cb(resp);
     });
   });
 }
 
-function getContacts(cb) {
+function getEmail(cb) {
   gapi.client.load('oauth2', 'v2', function() {
-    var request = gapi.client.oauth2.userinfo.get();
+    var request = gapi.client.oauth2.userinfo.v2.me.get();
     request.execute(function(resp) {
       console.log(resp);
-    })
-  })
+      if (cb) {
+        cb(resp);
+      }
+    });
+  }); 
 }
 
 function googleToEvent(gevent) {
