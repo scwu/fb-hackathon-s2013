@@ -17,12 +17,16 @@
 ul.nav#head(ng-show='mode == null')
   li.icon(ng-class='{active: mode == "times"}')
     a.icon_type#when(href='#', ng-click='mode = "times"')
+      .icon_title.front-btn WHEN?
   li.icon(ng-class='{active: mode == "location"}')
     a.icon_type#where(href='#', ng-click='mode = "location"')
+      .icon_title.front-btn WHERE?
   li.icon(ng-class='{active: mode == "people"}')
     a.icon_type#who(href='#', ng-click='mode = "people"')
+      .icon_title.front-btn WHO?
   li.icon(ng-class='{active: mode == "save"}')
     a.icon_type#save(href='#', ng-click='mode = "save"')
+      .icon_title.front-btn SAVE
 
 .container
   .row
