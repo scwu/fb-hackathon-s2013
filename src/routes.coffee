@@ -6,7 +6,18 @@ module.exports = (app) ->
     controllers.example.index req, res, next
 
   restfulRoutes app, 'users'
+  app.get '/api/users/:id/events', (req, res, next) ->
+    controllers.api.users.getEvents req, res, next
+  app.post '/api/users/:id/events', (req, res, next) ->
+    controllers.api.users.createEvent req, res, next
+
   restfulRoutes app, 'events'
+  app.post '/api/events/:id/responses', (req, res, next) ->
+    controllers.api.events.createResponse req, res, next
+
+  app.get '/api/events/:id/ranking', (req, res, next) ->
+    controllers.api.events.ranking req, res, next
+
   restfulRoutes app, 'responses'
 
 restfulRoutes = (app, model) ->

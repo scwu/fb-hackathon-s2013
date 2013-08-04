@@ -52,31 +52,59 @@ function makeApiCall() {
       'timeZone': 'UTC'
     });
     request.execute(function(resp) {
-      
-      console.log(resp);
 
       for (var i = 0; i < resp.items.length; i++) {
         if (resp.items[i].summary) {
+          var evt = resp.items[i];
 
-          var evnt = document.createElement('div');
+          var eventDiv = document.createElement('div');
 
           var summary = document.createElement('h2');
-          summary.appendChild(document.createTextNode(resp.items[i].summary));
+          summary.appendChild(document.createTextNode(evt.summary));
 
-          var loc = resp.items[i].location;
           var location = document.createElement('h3');
-          location.appendChild(document.createTextNode(loc));
+          location.appendChild(document.createTextNode(evt.location));
 
-          evnt.appendChild(summary);
-          evnt.appendChild(location);
+          eventDiv.appendChild(summary);
+          eventDiv.appendChild(location);
 
-          if (loc) {
-            addAddress(loc);
+          if (evt.location) {
+            addAddress(evt.location);
           }
 
-          document.getElementById('content').appendChild(evnt);
+          $('#calendar').fullCalendar('renderEvent', googleToEvent(evt), true);
+
+          document.getElementById('content').appendChild(eventDiv);
         }
       }
+
+      // $('#calendar').fullCalendar('rerenderEvents');
     });
   });
+}
+
+function googleToEvent(gevent) {
+  var evt = {};
+
+  if (gevent.start.dateTime) {
+    evt.start = (new Date(gevent.start.dateTime)).toISOString();
+    evt.allDay = false;
+  } else if (gevent.start.date) {
+    evt.start = (new Date(gevent.start.date)).toISOString();
+    evt.allDay = true;
+  }
+
+  if (gevent.endTimeUnspecified) {
+    evt.allDay = false;
+  } else if (gevent.end.dateTime) {
+    evt.end = (new Date(gevent.end.dateTime)).toISOString();
+    evt.allDay = false;
+  } else if (gevent.end.date) {
+    evt.end = (new Date(gevent.end.date)).toISOString();
+    evt.allDay = true;
+  }
+
+  evt.title = gevent.summary;
+
+  return evt;
 }
